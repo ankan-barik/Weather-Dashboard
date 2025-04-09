@@ -1,7 +1,7 @@
 :root {
-  --primary-color: #3498db;
-  --primary-color-dark: #2980b9;
-  --primary-light: #73b4e7;
+  --primary-color: #431aa3;
+  --primary-color-dark: #2d13b1;
+  --primary-light: #7375e7;
   --primary-glass: rgba(52, 152, 219, 0.1);
   --secondary-color: #8e44ad;
   --secondary-light: #a569bd;
@@ -9,16 +9,16 @@
   --background-color: #f5f7fa;
   --background-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
   --card-background: #ffffff;
-  --card-glass: rgba(255, 255, 255, 0.8);
+  --card-glass: rgba(255, 255, 255, 0.9);
   --card-glass-dark: rgba(45, 45, 45, 0.85);
-  --text-color: #333333;
+  --text-color: #333333; 
   --text-light: #666666;
   --error-color: #e74c3c;
   --success-color: #2ecc71;
   --border-radius: 12px;
   --border-radius-lg: 16px;
   --border-radius-sm: 8px;
-  --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.08);
+  --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.12);
   --box-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.1), 0 8px 10px rgba(0, 0, 0, 0.1);
   --transition-speed: 0.3s;
   --blur-effect: blur(10px);
@@ -77,7 +77,7 @@ body.weather-clear {
 }
 
 body.weather-clouds {
-  background: linear-gradient(135deg, #757F9A 0%, #D7DDE8 100%);
+  background: linear-gradient(135deg, #0f0f0f 0%, #0a0a0b 100%);
 }
 
 body.weather-rain {
