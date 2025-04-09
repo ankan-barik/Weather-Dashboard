@@ -1,18 +1,24 @@
 .recent-searches {
   margin-top: 1.5rem;
-  animation: fadeIn 0.5s ease forwards;
 }
 
-.recent-searches h3 {
-  font-size: 1.1rem;
+.recent-searches-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
-  color: var(--text-color);
+}
+
+.recent-searches-header h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0;
+  color: var(--primary-color);
   position: relative;
   display: inline-block;
   padding-bottom: 0.35rem;
 }
 
-.recent-searches h3::after {
+.recent-searches-header h3::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -22,88 +28,114 @@
   background: linear-gradient(to right, var(--primary-color), transparent);
 }
 
-.search-history {
+.clear-searches-btn {
+  background-color: var(--error-color);
+  color: white;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-sm);
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.clear-searches-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.clear-searches-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.recent-searches-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
-  max-width: 100%;
+  gap: 0.75rem;
 }
 
-.history-item {
-  background-color: var(--card-glass);
-  color: var(--primary-color);
-  border: 1px solid rgba(var(--primary-color), 0.2);
-  border-radius: 20px;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
+.recent-search-item {
+  border-radius: var(--border-radius-sm);
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
 }
 
-.history-item::before {
-  content: '🔍';
-  font-size: 0.8rem;
-  opacity: 0.7;
+.recent-search-btn {
+  background-color: var(--primary-glass);
+  color: var(--text-color);
+  border: 1px solid rgba(var(--primary-color-rgb), 0.2);  
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  border-radius: var(--border-radius-sm);
 }
 
-.history-item:hover {
+.recent-search-btn:hover {
   background-color: var(--primary-color);
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.history-item:active {
+.recent-search-btn:active {
   transform: translateY(0);
 }
 
-/* Add ripple effect */
-.history-item::after {
-  content: '';
-  position: absolute;
-  top: 50%;
+/* Confirmation message styles */
+.clear-confirmation {
+  position: fixed;
+  bottom: 2rem;
   left: 50%;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: inherit;
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  transition: transform 0.4s ease, opacity 0.4s ease;
+  transform: translateX(-50%);
+  background-color: var(--success-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: fadeInOut 2s ease forwards;
 }
 
-.history-item:hover::after {
-  transform: translate(-50%, -50%) scale(1.5);
-  opacity: 0;
-  animation: rippleEffect 0.6s ease;
-}
-
-@keyframes rippleEffect {
+@keyframes fadeInOut {
   0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0.3;
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
   100% {
-    transform: translate(-50%, -50%) scale(2);
     opacity: 0;
+    transform: translate(-50%, -20px);
   }
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .search-history {
-    gap: 0.4rem;
-  }
-  
-  .history-item {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
-  }
+/* Dark mode adjustments */
+.dark-mode .clear-searches-btn {
+  background-color: #ff6b6b;
+}
+
+.dark-mode .clear-searches-btn:hover {
+  background-color: #fa5252;
+}
+
+.dark-mode .recent-search-btn {
+  background-color: rgba(77, 171, 247, 0.15);
+  border: 1px solid rgba(77, 171, 247, 0.3);
+}
+
+.dark-mode .clear-confirmation {
+  background-color: #51cf66;
 }

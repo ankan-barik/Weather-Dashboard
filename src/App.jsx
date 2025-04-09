@@ -6,6 +6,7 @@ import ForecastSection from './components/ForecastSection';
 //import ForecastCard from './components/ForecastCard';
 import RecentSearches from './components/RecentSearches';
 import ThemeToggle from './components/ThemeToggle';
+import MapSection from './components/MapSection';
 import './App.css';
 
 function App() {
@@ -15,8 +16,44 @@ function App() {
   const [error, setError] = useState(null);
   const [recentSearches, setRecentSearches] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
+  const [coordinates, setCoordinates] = useState(null);
+  const [leafletLoaded, setLeafletLoaded] = useState(false);
 
   const API_KEY = '2ef836536612fabaaac2990fc33ac7dc'; // Add your OpenWeatherMap API key here
+  
+  // Load Leaflet script
+  useEffect(() => {
+    if (!window.L) {
+      const loadLeaflet = async () => {
+        try {
+          // First load the CSS
+          const linkEl = document.createElement('link');
+          linkEl.rel = 'stylesheet';
+          linkEl.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+          document.head.appendChild(linkEl);
+          
+          // Then load the script
+          const scriptEl = document.createElement('script');
+          scriptEl.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+          scriptEl.async = true;
+          
+          // Set up load event handler before appending to DOM
+          scriptEl.onload = () => {
+            console.log('Leaflet script loaded successfully');
+            setLeafletLoaded(true);
+          };
+          
+          document.body.appendChild(scriptEl);
+        } catch (err) {
+          console.error('Failed to load Leaflet:', err);
+        }
+      };
+      
+      loadLeaflet();
+    } else {
+      setLeafletLoaded(true);
+    }
+  }, []);
   
   useEffect(() => {
     // Load recent searches from localStorage on component mount
@@ -76,6 +113,15 @@ function App() {
       const data = await response.json();
       setWeatherData(data);
       
+      // Update coordinates for the map
+      if (data.coord) {
+        console.log('Setting coordinates:', data.coord);
+        setCoordinates({
+          lat: data.coord.lat,
+          lon: data.coord.lon
+        });
+      }
+      
       // Update recent searches
       updateRecentSearches(searchCity);
       
@@ -83,8 +129,10 @@ function App() {
       localStorage.setItem('lastCity', searchCity);
       
     } catch (err) {
+      console.error('Error fetching weather data:', err);
       setError(err.message);
       setWeatherData(null);
+      setCoordinates(null);
     } finally {
       setLoading(false);
     }
@@ -123,6 +171,24 @@ function App() {
   
   const toggleTheme = () => {
     setDarkMode(!darkMode);
+  };
+
+  // New function to clear recent searches
+  const handleClearSearches = () => {
+    setRecentSearches([]);
+    localStorage.removeItem('recentSearches');
+    // Optionally show a confirmation message
+    const confirmationEl = document.createElement('div');
+    confirmationEl.className = 'clear-confirmation';
+    confirmationEl.textContent = 'Recent searches cleared';
+    document.body.appendChild(confirmationEl);
+    
+    // Remove the confirmation message after a short delay
+    setTimeout(() => {
+      if (confirmationEl.parentNode) {
+        document.body.removeChild(confirmationEl);
+      }
+    }, 2000);
   };
   
   const renderErrorMessage = () => {
@@ -165,10 +231,18 @@ function App() {
           />
         )}
         
+        {weatherData && !loading && !error && leafletLoaded && coordinates && (
+          <MapSection 
+            city={city}
+            coordinates={coordinates}
+          />
+        )}
+        
         {recentSearches.length > 0 && (
           <RecentSearches 
             searches={recentSearches} 
-            onSelectSearch={handleRecentSearch} 
+            onSelectSearch={handleRecentSearch}
+            onClearSearches={handleClearSearches}
           />
         )}
       </main>
