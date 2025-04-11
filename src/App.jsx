@@ -206,7 +206,7 @@ function App() {
       <div className="weather-background"></div>
       
       <header>
-        <h1>Weather Dashboard</h1>
+        <h1>Weather Sphere</h1>
         <ThemeToggle darkMode={darkMode} toggleTheme={toggleTheme} />
       </header>
       
@@ -249,7 +249,7 @@ function App() {
       
       <footer>
         <p>Weather data provided by OpenWeatherMap</p>
-        <p className="copyright">&copy; {new Date().getFullYear()} Weather Dashboard</p>
+        <p className="copyright">&copy; {new Date().getFullYear()} Weather Sphere</p>
       </footer>
     </div>
   );
