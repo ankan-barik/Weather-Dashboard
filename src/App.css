@@ -1,6 +1,6 @@
 :root {
-  --primary-color: #431aa3;
-  --primary-color-dark: #2d13b1;
+  --primary-color: #4dabf7;
+  --primary-color-dark: #339af0;
   --primary-light: #7375e7;
   --primary-glass: rgba(52, 152, 219, 0.1);
   --secondary-color: #8e44ad;
@@ -105,11 +105,12 @@ header {
   z-index: 10;
 }
 
+/* Simple dark text color for daytime visibility */
 h1 {
   font-size: 2.25rem;
   font-weight: 700;
-  color: var(--primary-color);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  color: #5549df; /* Dark navy blue color that will stand out against light backgrounds */
+  text-shadow: 0 1px 2px rgba(15, 63, 96, 0.1);
   position: relative;
   overflow: hidden;
 }
@@ -121,14 +122,13 @@ h1::after {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--primary-color);
+  background-color: #28568a;
   transition: width 0.5s ease;
 }
 
 h1:hover::after {
   width: 100%;
 }
-
 main {
   flex: 1;
   display: flex;

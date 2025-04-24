@@ -7,6 +7,7 @@ import ForecastSection from './components/ForecastSection';
 import RecentSearches from './components/RecentSearches';
 import ThemeToggle from './components/ThemeToggle';
 import MapSection from './components/MapSection';
+import WeatherAnimations from './components/WeatherAnimations';
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [coordinates, setCoordinates] = useState(null);
   const [leafletLoaded, setLeafletLoaded] = useState(false);
+  const [timeOfDay, setTimeOfDay] = useState('day');
 
   const API_KEY = '2ef836536612fabaaac2990fc33ac7dc'; // Add your OpenWeatherMap API key here
   
@@ -87,6 +89,17 @@ function App() {
     // Save theme preference
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
+
+  // Determine if it's day or night based on weather data
+  useEffect(() => {
+    if (weatherData && weatherData.sys) {
+      const now = Date.now() / 1000; // Current time in seconds
+      const sunrise = weatherData.sys.sunrise;
+      const sunset = weatherData.sys.sunset;
+      
+      setTimeOfDay(now > sunrise && now < sunset ? 'day' : 'night');
+    }
+  }, [weatherData]);
 
   const fetchWeatherData = async (searchCity) => {
     if (!searchCity.trim() || !API_KEY) {
@@ -203,6 +216,14 @@ function App() {
 
   return (
     <div className={`app-container ${darkMode ? 'dark-mode' : ''}`}>
+      {/* Weather animations based on current weather condition */}
+      {weatherData && weatherData.weather && weatherData.weather[0] && (
+        <WeatherAnimations 
+          weatherCondition={weatherData.weather[0].main}
+          timeOfDay={timeOfDay}
+        />
+      )}
+      
       <div className="weather-background"></div>
       
       <header>
